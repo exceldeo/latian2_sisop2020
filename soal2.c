@@ -1,9 +1,12 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <wait.h>
+#include <stdio.h>
 
 int main() {
   pid_t child_id;
+  int status;
 
   child_id = fork();
   
@@ -14,14 +17,13 @@ int main() {
   if (child_id == 0) {
     // this is child
     
-    // char *argv[] = {"cp", "/home/excel/Musik", "/home/excel/coba", NULL};
-    // execv("/bin/cp", argv);
+    char *argv[] = {"cp","-r", "/home/excel/Music", "/home/excel/Desktop/coba1", NULL};
+    execv("/bin/cp", argv);
   } else {
     // this is parent
-    char *argv[] = {"date", "+%d-%m-%y_%H:%M:%S", NULL};
-    execv("/bin/date", argv);
-    // ren somefile.txt  somefile_%time:~0,2%%time:~3,2%-%DATE:/=%.txt
-    // char *argv[] = {"mv", "/home/excel/coba", "/home/excel/", NULL};
-    // execv("/bin/mv", argv);
+    while ((wait(&status)) > 0);
+    char *argv[] = {"bash", "time.sh", NULL};
+    execv("/bin/bash", argv);
+
   }
 }
