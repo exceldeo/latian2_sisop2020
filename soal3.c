@@ -40,8 +40,32 @@ int main() {
   close(STDOUT_FILENO);
   close(STDERR_FILENO);
 
+  int count = 1 ;
   while (1) {
-    // Tulis program kalian di sini
+    FILE *fp, *fb;
+    char c,nama[100];
+    fp = fopen("/home/excel/Desktop/kuliah/smt4/sisop2020/sesi lab/2/latian2_sisop2020/diary.txt","r");
+    if(fp == NULL)
+    {
+      printf("Invalid Input\n");
+      exit(0);
+    }
+    snprintf(nama, 100, "/home/excel/Desktop/kuliah/smt4/sisop2020/sesi lab/2/latian2_sisop2020/diary.log.%d",count);
+    count++;
+    fb=fopen(nama, "w+");
+    while(1) {
+        c = fgetc(fp);
+        if( feof(fp) ) { 
+            break;
+        }
+        fputc(c,fb);
+        // printf("%c", c);
+    }
+    fclose(fp);
+    fclose(fb);
+    
+    fp = fopen("/home/excel/Desktop/kuliah/smt4/sisop2020/sesi lab/2/latian2_sisop2020/diary.txt", "w");
+    fclose(fp);
 
     sleep(10);
   }
