@@ -3,10 +3,26 @@
 #include <unistd.h>
 #include <wait.h>
 #include <stdio.h>
+#include <time.h>  
+#include <string.h>
+#define Size 50 
 
 int main() {
   pid_t child_id;
   int status;
+
+    time_t t ; 
+    struct tm *tmp ; 
+    char MY_TIME[Size]; 
+    time( &t ); 
+      
+      
+    tmp = localtime( &t ); 
+      
+    // using strftime to display time 
+    strftime(MY_TIME, sizeof(MY_TIME), "%d-%m-%Y_%H:%M:%S", tmp);
+    char coba[] = "/home/excel/Desktop/";
+    strcat(coba,MY_TIME);
 
   child_id = fork();
   
@@ -17,13 +33,19 @@ int main() {
   if (child_id == 0) {
     // this is child
     
-    char *argv[] = {"cp","-r", "/home/excel/Music", "/home/excel/Desktop/coba1", NULL};
-    execv("/bin/cp", argv);
+    char *argv[] = {"mkdir","-p",coba, NULL};
+    execv("/bin/mkdir", argv);
   } else {
     // this is parent
     while ((wait(&status)) > 0);
-    char *argv[] = {"bash", "time.sh", NULL};
-    execv("/bin/bash", argv);
+    char apalah[] = "/home/excel/Music";
 
+    puts(MY_TIME);
+    
+    char *argv[] = {"cp","-r",apalah,coba,NULL};
+    execv("/bin/cp", argv);
+
+
+ 
   }
 }
